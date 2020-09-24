@@ -83,4 +83,4 @@ user_login_type_default : NA
 #dialcode_api_host: "{{ dialcode_host }}"
 #dialcode_api_endpoint: "{{ dialcode_endpoint }}"
 #dialcode_api_auth_key: "{{ dialcode_api_key }}"
-#dedup_exclude_eids: "LOG,ERROR"
+dedup_exclude_eids: "LOG,ERROR"
