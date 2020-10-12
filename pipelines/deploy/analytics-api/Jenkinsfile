@@ -30,7 +30,7 @@ node() {
                 stage('deploy artifact'){
                     sh """
                        unzip ${artifact}
-                       mv analytics-api-2.0-dist.zip ansible
+                       mv analytics-api-*-dist.zip ansible
                     """
                     ansiblePlaybook = "${currentWs}/ansible/lpa_api_deploy.yml"
                     ansibleExtraArgs = " --vault-password-file /var/lib/jenkins/secrets/vault-pass"
@@ -40,12 +40,6 @@ node() {
                     ansible_playbook_run(values)
                     archiveArtifacts artifacts: "${artifact}", fingerprint: true, onlyIfSuccessful: true
                     archiveArtifacts artifacts: 'metadata.json', onlyIfSuccessful: true
-                    ansiblePlaybook = "${currentWs}/ansible/analyticsapi_logstash.yml"
-                    ansibleExtraArgs = " --vault-password-file /var/lib/jenkins/secrets/vault-pass"
-                    values.put('ansiblePlaybook', ansiblePlaybook)
-                    values.put('ansibleExtraArgs', ansibleExtraArgs)
-                    println values
-                    ansible_playbook_run(values)
                     currentBuild.result = "SUCCESS"
                     currentBuild.description = "Artifact: ${values.artifact_version}, Private: ${params.private_branch}, Public: ${params.branch_or_tag}"
                 }
